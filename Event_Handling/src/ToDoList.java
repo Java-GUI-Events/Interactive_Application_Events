@@ -1,8 +1,10 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.logging.Handler;
 import java.awt.*;
 
 import javax.swing.DefaultListModel;
@@ -10,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -67,7 +70,9 @@ public class ToDoList extends JFrame {
 
         // Adiciona os componentes ao painel principal
         mainPanel.add(inputPanel, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
+        JScrollPane scrollDelete = new JScrollPane(taskList);
+        // mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
+        mainPanel.add(scrollDelete, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Adiciona o painel principal à janela
@@ -76,6 +81,13 @@ public class ToDoList extends JFrame {
         // Exibe a janela
 
         // Configuração de Listener para os Eventos
+        // adicionar tarefa
+        HandlerAddTask eventAddTask = new HandlerAddTask();
+        addButton.addActionListener(eventAddTask);
+
+        // excluir tarefa
+        HandlerDeleteTask eventDeleteTask = new HandlerDeleteTask();
+        taskList.addKeyListener(eventDeleteTask);
     }
 
     private void addTask() {
@@ -89,6 +101,15 @@ public class ToDoList extends JFrame {
         }
     }
 
+    public class HandlerAddTask implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            addTask();
+        }
+        
+    }
+
     private void deleteTask() {
         // Exclui a task selecionada da lista de tasks
         int selectedIndex = taskList.getSelectedIndex();
@@ -97,6 +118,30 @@ public class ToDoList extends JFrame {
             updateTaskList();
         }
     }
+
+    public class HandlerDeleteTask implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        //     if(eventDeleteTask.getKeyCode() == java.awt.event.KeyEvent.VK_DELETE){
+	    // System.out.println("Pressionou delete");
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if(e.getKeyCode() == KeyEvent.VK_DELETE){
+                deleteTask();
+              }
+        }
+    
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+             
+    }
+           
+        } 
+        
 
     private void markTaskDone() {
         // Marca a task selecionada como concluída
