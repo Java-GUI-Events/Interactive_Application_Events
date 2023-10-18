@@ -142,7 +142,17 @@ public class ToDoList extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            addTask();
+            try {
+                addTask();
+
+                if(taskInputField.equals(null)) {
+                throw new Exception("Digite alguma coisa");
+            }
+            }
+            catch(Exception erro) {
+                JOptionPane.showMessageDialog(null, erro.getMessage(), "valor nulo", 0);
+            }
+            
         }
 
     }
