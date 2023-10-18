@@ -1,7 +1,14 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
@@ -88,6 +95,19 @@ public class ToDoList extends JFrame {
         // excluir tarefa
         HandlerDeleteTask eventDeleteTask = new HandlerDeleteTask();
         taskList.addKeyListener(eventDeleteTask);
+
+        // concluir tarefa
+        HandlerFinisihTask eventFinishTask = new HandlerFinisihTask();
+        markDoneButton.addMouseListener(eventFinishTask);
+
+        // filtrar tarefa
+        HandlerFilterTask eventFilterTask = new HandlerFilterTask();
+        filterComboBox.addItemListener(eventFilterTask);
+
+        // limpar concluídas
+        HandlerClearCompletedTasks eventClearCompletedTasks = new HandlerClearCompletedTasks();
+        clearCompletedButton.addComponentListener(eventClearCompletedTasks);
+        
     }
 
     private void addTask() {
@@ -101,7 +121,16 @@ public class ToDoList extends JFrame {
         }
     }
 
-    public class HandlerAddTask implements ActionListener {
+    // public class HandlerAddTask implements ActionListener {
+
+    //     @Override
+    //     public void actionPerformed(ActionEvent e) {
+    //         addTask();
+    //     }
+        
+    // }
+
+     public class HandlerAddTask implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -153,6 +182,35 @@ public class ToDoList extends JFrame {
         }
     }
 
+    public class HandlerFinisihTask implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            markTaskDone();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+           
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+          
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+           
+        }
+        
+    }
+
     private void filterTasks() {
         // Filtra as tasks com base na seleção do JComboBox
         String filter = (String) filterComboBox.getSelectedItem();
@@ -163,6 +221,15 @@ public class ToDoList extends JFrame {
                 listModel.addElement(task.getDescription());
             }
         }
+    }
+
+    public class HandlerFilterTask implements ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+          filterTasks();
+        }
+        
     }
 
     private void clearCompletedTasks() {
@@ -176,6 +243,32 @@ public class ToDoList extends JFrame {
         tasks.removeAll(completedTasks);
         updateTaskList();
     }
+
+    public class HandlerClearCompletedTasks implements ComponentListener{
+
+        @Override
+        public void componentResized(ComponentEvent e) {
+            clearCompletedTasks();
+        }
+
+        @Override
+        public void componentMoved(ComponentEvent e) {
+            clearCompletedTasks();
+        }
+
+        @Override
+        public void componentShown(ComponentEvent e) {
+            clearCompletedTasks();
+        }
+
+        @Override
+        public void componentHidden(ComponentEvent e) {
+           clearCompletedTasks();
+        }
+       
+    }
+
+
 
     private void updateTaskList() {
         // Atualiza a lista de tasks exibida na GUI
