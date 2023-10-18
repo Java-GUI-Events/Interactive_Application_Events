@@ -1,21 +1,15 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 import java.awt.*;
 
 import javax.swing.DefaultListModel;
@@ -118,6 +112,7 @@ public class ToDoList extends JFrame {
 
     }
 
+    // Função para Adicionar as tarefas ao tasks-array
     private void addTask() {
         // Adiciona uma nova task à lista de tasks
         String taskDescription = taskInputField.getText().trim();// remove espaços vazios
@@ -129,17 +124,8 @@ public class ToDoList extends JFrame {
         }
     }
 
-    // public class HandlerAddTask implements ActionListener {
-
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    // addTask();
-    // }
-
-    // }
-
+    // Tratamento de evento utilizando: ActionListener para adicionar as tarefas
     public class HandlerAddTask implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -157,6 +143,7 @@ public class ToDoList extends JFrame {
 
     }
 
+    // Função para Deletar as tarefas
     private void deleteTask() {
         // Exclui a task selecionada da lista de tasks
         int selectedIndex = taskList.getSelectedIndex();
@@ -166,17 +153,16 @@ public class ToDoList extends JFrame {
         }
     }
 
+    // Tratamento de evento utilizando: KeyListener para excluir a task selecionada
     public class HandlerDeleteTask implements KeyListener {
-
         @Override
         public void keyTyped(KeyEvent e) {
-            // if(eventDeleteTask.getKeyCode() == java.awt.event.KeyEvent.VK_DELETE){
-            // System.out.println("Pressionou delete");
+
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) { //se a tecla pressionada (e.getKeyCode()) for igual DEL (código da tecla DEL) 
                 deleteTask();
             }
         }
@@ -188,16 +174,16 @@ public class ToDoList extends JFrame {
 
     }
 
+    // Tratamento de evento utilizando: ActionListener - clicar no botão e também excluir
     public class HandlerDeleteTask2 implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-           
             deleteTask();
         }
         
     }
 
+    // Função para marcar como Concluído✅
     private void markTaskDone() {
         // Marca a task selecionada como concluída
         int selectedIndex = taskList.getSelectedIndex();
@@ -208,6 +194,9 @@ public class ToDoList extends JFrame {
         }
     }
 
+    //Tratamento de evento utilizando: MouseListener - mouseClicked 
+    //quando clicado chama a função markTaskDone
+    
     public class HandlerFinisihTask implements MouseListener {
 
         @Override
@@ -237,6 +226,7 @@ public class ToDoList extends JFrame {
 
     }
 
+    // Função para filtrar as tasks
     private void filterTasks() {
         // Filtra as tasks com base na seleção do JComboBox
         String filter = (String) filterComboBox.getSelectedItem();
@@ -249,6 +239,7 @@ public class ToDoList extends JFrame {
         }
     }
 
+    //Tratamento de evento utilizando: ItemListener - com base na seleção do usuário realiza o filtro entre - Concluída | Ativas | Todas
     public class HandlerFilterTask implements ItemListener {
 
         @Override
@@ -258,6 +249,7 @@ public class ToDoList extends JFrame {
 
     }
 
+    // Função para limpar as tasks marcadas como concluídas
     private void clearCompletedTasks() {
         // Limpa todas as tasks concluídas da lista
         List<Task> completedTasks = new ArrayList<>();
@@ -270,6 +262,7 @@ public class ToDoList extends JFrame {
         updateTaskList();
     }
 
+    //Tratamento de evento utilizando: FocusListener
     public class HandlerClearCompletedTasks implements FocusListener {
 
         @Override
@@ -279,7 +272,7 @@ public class ToDoList extends JFrame {
 
         @Override
         public void focusLost(FocusEvent e) {
-            clearCompletedTasks();
+            
         }
 
     }
