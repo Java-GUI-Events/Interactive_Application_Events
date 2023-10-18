@@ -178,6 +178,16 @@ public class ToDoList extends JFrame {
     public class HandlerDeleteTask2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+        
+            int option = Integer.parseInt(JOptionPane.showInputDialog("Tem certeza?"));
+            if(option == 1 ){
+                JOptionPane.showMessageDialog(null, "Task deletada com SUCESSO!");
+                deleteTask();
+            } else{
+                JOptionPane.showMessageDialog(null, "OK?");
+            }
+
+
             deleteTask();
         }
         
