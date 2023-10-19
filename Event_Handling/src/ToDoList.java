@@ -121,6 +121,8 @@ public class ToDoList extends JFrame {
             tasks.add(newTask);
             updateTaskList();
             taskInputField.setText("");
+        } else{
+            JOptionPane.showMessageDialog(null, "Digita mula");
         }
     }
 
@@ -128,16 +130,7 @@ public class ToDoList extends JFrame {
     public class HandlerAddTask implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                addTask();
-
-                if(taskInputField.equals(null)) {
-                throw new Exception("Digite alguma coisa");
-            }
-            }
-            catch(Exception erro) {
-                JOptionPane.showMessageDialog(null, erro.getMessage(), "valor nulo", 0);
-            }
+            addTask();
             
         }
 
@@ -147,9 +140,15 @@ public class ToDoList extends JFrame {
     private void deleteTask() {
         // Exclui a task selecionada da lista de tasks
         int selectedIndex = taskList.getSelectedIndex();
-        if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
+        String[] answers = {"sim", "não"};
+            int option = JOptionPane.showOptionDialog(rootPane, "Tem certeza que deseja deletar?", getTitle(), selectedIndex, selectedIndex, null, answers, answers);
+        if (selectedIndex >= 0 && selectedIndex < tasks.size() && option == 0) {
             tasks.remove(selectedIndex);
             updateTaskList();
+        } else if(option == 1){
+            JOptionPane.showMessageDialog(null, "Tarefa não deletada");
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione uma tarefa");
         }
     }
 
@@ -164,7 +163,7 @@ public class ToDoList extends JFrame {
         public void keyPressed(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_DELETE) { //se a tecla pressionada (e.getKeyCode()) for igual DEL (código da tecla DEL) 
                 deleteTask();
-            }
+            } 
         }
 
         @Override
@@ -178,15 +177,8 @@ public class ToDoList extends JFrame {
     public class HandlerDeleteTask2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-        
-            int option = Integer.parseInt(JOptionPane.showInputDialog("Tem certeza?"));
-            if(option == 1 ){
-                JOptionPane.showMessageDialog(null, "Task deletada com SUCESSO!");
-                deleteTask();
-            } else{
-                JOptionPane.showMessageDialog(null, "OK?");
-            }
-
+            
+            
 
             deleteTask();
         }
@@ -201,6 +193,7 @@ public class ToDoList extends JFrame {
             Task task = tasks.get(selectedIndex);
             task.setDone(true);
             updateTaskList();
+            JOptionPane.showMessageDialog(null, "Tarefa concluída com sucesso ✔");
         }
     }
 
@@ -266,7 +259,8 @@ public class ToDoList extends JFrame {
         for (Task task : tasks) {
             if (task.isDone()) {
                 completedTasks.add(task);
-            }
+                JOptionPane.showMessageDialog(null, "Tarefas concluídas apagadas com sucesso");
+            } 
         }
         tasks.removeAll(completedTasks);
         updateTaskList();

@@ -2,6 +2,7 @@ public class Task {
     // atributos
     private String description;
     private boolean done;
+    public boolean isEmpty;
 
     // construtor(somente String description)
     public Task(String description) {
