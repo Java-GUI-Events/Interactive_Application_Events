@@ -1,3 +1,5 @@
+
+// importando bibliotecas
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -28,13 +30,13 @@ public class ToDoList extends JFrame {
     private JPanel mainPanel; // Painel Principal
     private JTextField taskInputField;
     private JButton addButton;
-    private JList<String> taskList;
+    private JList<String> taskList; // JList
     private DefaultListModel<String> listModel;
     private JButton deleteButton;
     private JButton markDoneButton;
     private JComboBox<String> filterComboBox;
     private JButton clearCompletedButton;
-    private List<Task> tasks;
+    private List<Task> tasks; // lista de tarefas
 
     // Construtor
     public ToDoList() {
@@ -53,8 +55,6 @@ public class ToDoList extends JFrame {
         listModel = new DefaultListModel<>();
         taskList = new JList<>(listModel);
         taskList.setFont(new Font("Arial", Font.PLAIN, 16));
-
-
 
         // Inicializa campos de entrada, botões e JComboBox
         taskInputField = new JTextField();
@@ -96,7 +96,6 @@ public class ToDoList extends JFrame {
         // Adiciona os componentes ao painel principal
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         JScrollPane scrollDelete = new JScrollPane(taskList);
-        // mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
         mainPanel.add(scrollDelete, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -130,6 +129,9 @@ public class ToDoList extends JFrame {
         HandlerClearCompletedTasks eventClearCompletedTasks = new HandlerClearCompletedTasks();
         clearCompletedButton.addFocusListener(eventClearCompletedTasks);
 
+        HandlerAddTask2 eventAddTask2 = new HandlerAddTask2();
+        taskInputField.addKeyListener(eventAddTask2);
+
     }
 
     // Função para Adicionar as tarefas ao tasks-array
@@ -152,7 +154,25 @@ public class ToDoList extends JFrame {
         public void actionPerformed(ActionEvent e) {
             addTask();
         }
+    }
 
+    public class HandlerAddTask2 implements KeyListener{
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+        @Override
+        public void keyPressed(KeyEvent e) {
+         if (e.getKeyCode() == KeyEvent.VK_ENTER) { // se a tecla pressionada (e.getKeyCode()) for igual DEL (código
+                                                        // da tecla DEL)
+                addTask();
+            }
+        
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+        }
+        
     }
 
     // Função para Deletar as tarefas
@@ -161,16 +181,16 @@ public class ToDoList extends JFrame {
         int selectedIndex = taskList.getSelectedIndex();
         String[] answers = { "sim", "não" };
         if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
-             int option = JOptionPane.showOptionDialog(rootPane, "Tem certeza que deseja deletar?", getTitle(),
-                selectedIndex, selectedIndex, null, answers, answers);
-                if(option == 0) {
-                    JOptionPane.showMessageDialog(null, "Tarefa deletada com sucesso");
-                    tasks.remove(selectedIndex);
-            updateTaskList();
-                } else if(option == 1) {
-                    JOptionPane.showMessageDialog(null, "Tarefa não deletada");
-                }
-        }  else {
+            int option = JOptionPane.showOptionDialog(rootPane, "Tem certeza que deseja deletar?", getTitle(),
+                    selectedIndex, selectedIndex, null, answers, answers);
+            if (option == 0) {
+                JOptionPane.showMessageDialog(null, "Tarefa deletada com sucesso");
+                tasks.remove(selectedIndex);
+                updateTaskList();
+            } else if (option == 1) {
+                JOptionPane.showMessageDialog(null, "Tarefa não deletada");
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Selecione uma tarefa");
         }
     }
@@ -198,7 +218,7 @@ public class ToDoList extends JFrame {
     }
 
     // Tratamento de evento utilizando: ActionListener - clicar no botão e também
-    // excluir
+    // exclui
     public class HandlerDeleteTask2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -217,7 +237,7 @@ public class ToDoList extends JFrame {
             task.setDone(true);
             updateTaskList();
             JOptionPane.showMessageDialog(null, "Tarefa concluída com sucesso ✔");
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "Selecione uma tarefa para concluir");
         }
     }
@@ -262,7 +282,9 @@ public class ToDoList extends JFrame {
         for (Task task : tasks) {
             if (filter.equals("Todas") || (filter.equals("Ativas") &&
                     !task.isDone()) || (filter.equals("Concluídas") && task.isDone())) {
-                listModel.addElement(task.getDescription());
+                listModel.addElement(task.getDescription() + (task.isDone() ?
+
+                    " (Task Concluída)" : "")) ;
             }
         }
     }
@@ -280,17 +302,6 @@ public class ToDoList extends JFrame {
 
     // Função para limpar as tasks marcadas como concluídas
     private void clearCompletedTasks() {
-        // // Limpa todas as tasks concluídas da lista
-        // List<Task> completedTasks = new ArrayList<>();
-        // for (Task task : tasks) {
-        //     if (task.isDone()) {
-        //         completedTasks.add(task);
-        //         JOptionPane.showMessageDialog(null, "Tarefas concluídas apagadas com sucesso");
-        //     }
-        // }
-        // tasks.removeAll(completedTasks);
-        // updateTaskList();
-
         List<Task> completedTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (task.isDone()) {
@@ -322,10 +333,11 @@ public class ToDoList extends JFrame {
     private void updateTaskList() {
         // Atualiza a lista de tasks exibida na GUI
         listModel.clear();
+        int i = 1;
         for (Task task : tasks) {
-            listModel.addElement(task.getDescription() + (task.isDone() ?
+            listModel.addElement( i++ + ". " + task.getDescription() + (task.isDone() ?
 
-                    " (Concluída)" : ""));
+                    " (Task Concluída)" : ""));
 
         }
     }
