@@ -217,6 +217,8 @@ public class ToDoList extends JFrame {
             task.setDone(true);
             updateTaskList();
             JOptionPane.showMessageDialog(null, "Tarefa concluída com sucesso ✔");
+        } else{
+            JOptionPane.showMessageDialog(null, "Selecione uma tarefa para concluir");
         }
     }
 
@@ -278,16 +280,28 @@ public class ToDoList extends JFrame {
 
     // Função para limpar as tasks marcadas como concluídas
     private void clearCompletedTasks() {
-        // Limpa todas as tasks concluídas da lista
+        // // Limpa todas as tasks concluídas da lista
+        // List<Task> completedTasks = new ArrayList<>();
+        // for (Task task : tasks) {
+        //     if (task.isDone()) {
+        //         completedTasks.add(task);
+        //         JOptionPane.showMessageDialog(null, "Tarefas concluídas apagadas com sucesso");
+        //     }
+        // }
+        // tasks.removeAll(completedTasks);
+        // updateTaskList();
+
         List<Task> completedTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (task.isDone()) {
                 completedTasks.add(task);
-                JOptionPane.showMessageDialog(null, "Tarefas concluídas apagadas com sucesso");
             }
         }
-        tasks.removeAll(completedTasks);
-        updateTaskList();
+        if (!completedTasks.isEmpty()) {
+            tasks.removeAll(completedTasks);
+            updateTaskList();
+            JOptionPane.showMessageDialog(null, "Tarefas concluídas apagadas com sucesso");
+        }
     }
 
     // Tratamento de evento utilizando: FocusListener
