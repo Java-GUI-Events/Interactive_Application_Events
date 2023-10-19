@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 public class ToDoList extends JFrame {
     // Atributos
@@ -51,15 +52,34 @@ public class ToDoList extends JFrame {
         tasks = new ArrayList<>();
         listModel = new DefaultListModel<>();
         taskList = new JList<>(listModel);
+        taskList.setFont(new Font("Arial", Font.PLAIN, 16));
+
+
 
         // Inicializa campos de entrada, botões e JComboBox
         taskInputField = new JTextField();
+        taskInputField.setFont(new Font("Arial", Font.PLAIN, 16));
+        taskInputField.setBackground(Color.DARK_GRAY);
+        taskInputField.setForeground(Color.WHITE);
+
         addButton = new JButton("Adicionar");
+        addButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        addButton.setBackground(Color.CYAN);
         deleteButton = new JButton("Excluir");
+        deleteButton.setBackground(Color.RED);
+        deleteButton.setFont(new Font("Arial", Font.PLAIN, 16));
+
         markDoneButton = new JButton("Concluir");
+        markDoneButton.setBackground(Color.GREEN);
+        markDoneButton.setFont(new Font("Arial", Font.PLAIN, 16));
         filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas",
                 "Concluídas" });
+        filterComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        filterComboBox.setBackground(Color.YELLOW);
         clearCompletedButton = new JButton("Limpar Concluídas");
+        clearCompletedButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        clearCompletedButton.setForeground(Color.white);
+        clearCompletedButton.setBackground(Color.DARK_GRAY);
 
         // Configuração do painel de entrada
         JPanel inputPanel = new JPanel(new BorderLayout());
