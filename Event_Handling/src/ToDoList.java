@@ -121,8 +121,8 @@ public class ToDoList extends JFrame {
             tasks.add(newTask);
             updateTaskList();
             taskInputField.setText("");
-        } else{
-            JOptionPane.showMessageDialog(null, "Digita mula");
+        } else {
+            JOptionPane.showMessageDialog(null, "Digite algo para ser adicionado");
         }
     }
 
@@ -131,7 +131,6 @@ public class ToDoList extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             addTask();
-            
         }
 
     }
@@ -140,14 +139,18 @@ public class ToDoList extends JFrame {
     private void deleteTask() {
         // Exclui a task selecionada da lista de tasks
         int selectedIndex = taskList.getSelectedIndex();
-        String[] answers = {"sim", "não"};
-            int option = JOptionPane.showOptionDialog(rootPane, "Tem certeza que deseja deletar?", getTitle(), selectedIndex, selectedIndex, null, answers, answers);
-        if (selectedIndex >= 0 && selectedIndex < tasks.size() && option == 0) {
-            tasks.remove(selectedIndex);
+        String[] answers = { "sim", "não" };
+        if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
+             int option = JOptionPane.showOptionDialog(rootPane, "Tem certeza que deseja deletar?", getTitle(),
+                selectedIndex, selectedIndex, null, answers, answers);
+                if(option == 0) {
+                    JOptionPane.showMessageDialog(null, "Tarefa deletada com sucesso");
+                    tasks.remove(selectedIndex);
             updateTaskList();
-        } else if(option == 1){
-            JOptionPane.showMessageDialog(null, "Tarefa não deletada");
-        } else {
+                } else if(option == 1) {
+                    JOptionPane.showMessageDialog(null, "Tarefa não deletada");
+                }
+        }  else {
             JOptionPane.showMessageDialog(null, "Selecione uma tarefa");
         }
     }
@@ -161,9 +164,10 @@ public class ToDoList extends JFrame {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_DELETE) { //se a tecla pressionada (e.getKeyCode()) for igual DEL (código da tecla DEL) 
+            if (e.getKeyCode() == KeyEvent.VK_DELETE) { // se a tecla pressionada (e.getKeyCode()) for igual DEL (código
+                                                        // da tecla DEL)
                 deleteTask();
-            } 
+            }
         }
 
         @Override
@@ -173,16 +177,15 @@ public class ToDoList extends JFrame {
 
     }
 
-    // Tratamento de evento utilizando: ActionListener - clicar no botão e também excluir
+    // Tratamento de evento utilizando: ActionListener - clicar no botão e também
+    // excluir
     public class HandlerDeleteTask2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            
-            
 
             deleteTask();
         }
-        
+
     }
 
     // Função para marcar como Concluído✅
@@ -197,9 +200,9 @@ public class ToDoList extends JFrame {
         }
     }
 
-    //Tratamento de evento utilizando: MouseListener - mouseClicked 
-    //quando clicado chama a função markTaskDone
-    
+    // Tratamento de evento utilizando: MouseListener - mouseClicked
+    // quando clicado chama a função markTaskDone
+
     public class HandlerFinisihTask implements MouseListener {
 
         @Override
@@ -242,7 +245,8 @@ public class ToDoList extends JFrame {
         }
     }
 
-    //Tratamento de evento utilizando: ItemListener - com base na seleção do usuário realiza o filtro entre - Concluída | Ativas | Todas
+    // Tratamento de evento utilizando: ItemListener - com base na seleção do
+    // usuário realiza o filtro entre - Concluída | Ativas | Todas
     public class HandlerFilterTask implements ItemListener {
 
         @Override
@@ -260,13 +264,13 @@ public class ToDoList extends JFrame {
             if (task.isDone()) {
                 completedTasks.add(task);
                 JOptionPane.showMessageDialog(null, "Tarefas concluídas apagadas com sucesso");
-            } 
+            }
         }
         tasks.removeAll(completedTasks);
         updateTaskList();
     }
 
-    //Tratamento de evento utilizando: FocusListener
+    // Tratamento de evento utilizando: FocusListener
     public class HandlerClearCompletedTasks implements FocusListener {
 
         @Override
@@ -276,7 +280,7 @@ public class ToDoList extends JFrame {
 
         @Override
         public void focusLost(FocusEvent e) {
-            
+
         }
 
     }
